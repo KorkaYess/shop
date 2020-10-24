@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<div class="container bootstrap snippets bootdey">
+    <div class="col-md-12 col-sm-10 content">
+        <div class="row">
+            <div class="col">
+                <ol class="breadcrumb">
+                  <li><a href="/">Catalog</a></li>
+                  <li class="active">Cart</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-info panel-shadow">
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Description</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in cart %}
+
+                                <tr>
+                                    <td><strong>{{ product.product.name }}</strong></td>
+                                    <td><p>{{ product.product.description }}</p></td>
+                                    <td>
+                                      {{ product.quant }}
+                                      <form method="post" action="{% url 'cart_delete' product.id %}">
+                                        {% csrf_token %}
+                                        <input type="submit" value="Remove item">
+                                      </form>
+                                    </td>
+                                    <td>{{ product.product.price }} KZT</td>
+                                    <td>{{ product.price }} KZT</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="6">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total Product</td>
+                                    <td>{{ total_price }} KZT</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                </div>
+                <a href="/" class="btn btn-success"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

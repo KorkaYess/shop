@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="row">
+      <div class="col-sm-4">
+        <ul class="topmenus">
+            {% for category in categories %}
+            <li><a href="/categories/{{ category.id }}"> {{ category.name }} </a>
+                <i>
+                    {% for sub in category.subs.all %}
+                    <ul>
+                        <li>
+                            <a href="/subcategories/{{ sub.id }}">{{ sub.name }}</a>
+                        </li>
+                    </ul>
+                    {% endfor %}
+                </i>
+            </li>
+
+            {% endfor %}
+        </ul>
+      </div>
+      <div class="col-sm-8">
+
+        <div class="row">
+        {% for product in products %}
+            <div class="card border-primary">
+              <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <a href="#">{{ product.name }}</a>
+                    </h4>
+                    <h5>{{ product.price }} KZT</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">★ ★ ★ ★ ★</small>
+                  </div>
+                  <form method="post" action="{% url 'cart_add' product_id=product.id %}">
+                    {% csrf_token %}
+                    <input type="submit" value="ADD TO CART">
+                  </form>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+        </div>
+
+      </div>
+  </div>
+
+
+{% endblock %}
